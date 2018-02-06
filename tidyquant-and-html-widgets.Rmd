@@ -1,0 +1,93 @@
+---
+title: "Using Tidyquant and Plotly: A Simple Introduction"
+output: html_notebook
+---
+
+## Installation
+```{r include=FALSE}
+library(tidyquant)
+library(plotly)
+```
+
+To have access to the quandl data, it is better to declare my API address, for example:
+
+```{r eval=FALSE}
+quandl_api_key("enter-your-api-key-here")
+```
+
+## Import data (in a tibble form)
+Import two time series in levels:
+```{r}
+dat01 <- c("FRED/CTFPPPJPA669NRUG", 
+            "FRED/CTFPPPBOA669NRUG") %>%
+    tq_get(get          = "quandl",
+           from         = "1950-01-01",
+           to           = "2014-01-01",
+           collapse     = "annual")       
+```
+
+Import two time series in growth rates:
+```{r}
+dat02 <- c("FRED/CTFPPPJPA669NRUG", 
+            "FRED/CTFPPPBOA669NRUG") %>%
+    tq_get(get          = "quandl",
+           from         = "1950-01-01",
+           to           = "2014-01-01",
+           transform    = "rdiff",
+           collapse     = "annual")    
+```
+
+
+
+## Wrangle the data
+
+Recode the name of the countries and create a factor variable:
+```{r}
+dat01$symbol_rec <- recode(dat01$symbol,
+               "FRED/CTFPPPJPA669NRUG" = "Japan",
+               "FRED/CTFPPPBOA669NRUG" = "Bolivia")
+dat01$symbol_rec <- factor(dat01$symbol_rec)
+```
+
+```{r}
+dat02$symbol_rec <- recode(dat02$symbol,
+               "FRED/CTFPPPJPA669NRUG" = "Japan",
+               "FRED/CTFPPPBOA669NRUG" = "Bolivia")
+dat02$symbol_rec <- factor(dat02$symbol_rec)
+```
+
+## Visualize levels
+
+```{r}
+fig01 <- dat01 %>%
+  ggplot(aes(x = date,
+             y = value,
+             color = symbol_rec)) +
+  geom_line()
+```
+
+Here is an interactive visualization via `Plotly`
+
+```{r}
+ggplotly(fig01)
+```
+
+## Visualize growth rates
+
+```{r}
+fig02 <- dat02 %>%
+  ggplot(aes(x = date,
+             y = value,
+             color = symbol_rec)) +
+  geom_line()
+```
+
+Here is an interactive visualization via `Plotly`
+
+```{r}
+ggplotly(fig02)
+```
+
+## Additional references
+- <https://business-science.github.io/tidyquant/articles/TQ01-core-functions-in-tidyquant.html>
+- <https://plot.ly/ggplot2/getting-started/>
