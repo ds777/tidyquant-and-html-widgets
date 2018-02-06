@@ -88,6 +88,9 @@ Here is an interactive visualization via `Plotly`
 ggplotly(fig02)
 ```
 
+## Rendering of this documents
+The interactive html version of this document can be accessed from: <https://rawgit.com/ds777/tidyquant-and-html-widgets/master/tidyquant-and-html-widgets.nb.html>
+
 ## Additional references
 - <https://business-science.github.io/tidyquant/articles/TQ01-core-functions-in-tidyquant.html>
 - <https://plot.ly/ggplot2/getting-started/>
