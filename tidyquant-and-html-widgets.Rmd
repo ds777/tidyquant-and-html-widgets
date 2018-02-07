@@ -39,7 +39,7 @@ dat02 <- c("FRED/CTFPPPJPA669NRUG",
 
 
 
-## Wrangle the data
+## Wrangle data
 
 Recode the name of the countries and create a factor variable:
 ```{r}
